@@ -1,5 +1,6 @@
 from tkinter import *
 #Sens direct de la bijection entre une permutation et deux tableaux de Young
+
 def permutationToYoung(tab) :
     P=[[]]
     Q=[[]]
