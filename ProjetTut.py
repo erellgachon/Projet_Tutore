@@ -11,8 +11,6 @@ def permutationToYoung(tab) :
         Q[x].append(i+1)
     return [P,Q]
 
-
-
 def insert(elmt,tab,i=0) :
     j=0
     if (i==len(tab)) :
