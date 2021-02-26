@@ -46,7 +46,6 @@ def insertInv(P,i,j) :
         i1=i1-1
     return elt
     
->>>>>>> f40e8d2b724a03590dadd9b788ac6cfc9627ed1b
 def insert(elmt,tab,i=0) :
     j=0
     if (i==len(tab)) :
