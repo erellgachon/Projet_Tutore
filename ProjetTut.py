@@ -1,4 +1,5 @@
 from tkinter import *
+import random
 #Sens direct de la bijection entre une permutation et deux tableaux de Young
 
 def PermutationToYoung(tab) :
@@ -61,41 +62,51 @@ def insert(elmt,tab,i=0) :
         return insert(tmp,tab,i+1)
         
                    
+def permutationAleatoire(n) :
+    tab=[]
+    for i in range(n) :
+        tab.append((i,random.uniform(0,1)))
+    tabSorted=sorted(tab, key=lambda x : x[1])
+    permutation=[element[0] for element in tabSorted]
+    return permutation
 
-    
 def RS() :
     fenetre=Tk()
     fenetre.title("On est trop forts <3")
-    n=15
-    c=50
-    can=Canvas(fenetre,width=n*c,height=n*c, bg="white")
+    size=800
+    can=Canvas(fenetre,width=size,height=size, bg="white")
     can.pack()
-
+    print("Mode : 'al' pour permutation aléatoire, 'man' pour la rentrer à la main")
+    mode=str(input("Mode = "))
     n=int(input("n = "))
-    permut=[]
-    for i in range (n) :
-        print("Sur quoi envoie",i+1,end='')
-        permut.append(int(input(" ? : ")))
+    if (mode=='al') :
+        permut=permutationAleatoire(n)
+    else :
+        permut=[]
+        for i in range (n) :
+            print("Sur quoi envoie",i+1,end='')
+            permut.append(int(input(" ? : ")))
 
 
-
+    
     [P,Q]=PermutationToYoung(permut)  #Tab de Young
+    squareSize=size//max(len(P),len(P[0]))
     for j in range(len(P)) :
         y=0 #affichage
         for i in range(0,len(P[j])) :
-            can.create_rectangle(y,j*50,50+y,50+j*50,fill="black")
-            can.create_rectangle(y+1,j*50+1,49+y,49+j*50,fill="white")
-            can.create_text(25+y,25+j*50,text=P[j][i],fill="blue")
-            y=y+50
-
+            can.create_rectangle(y,j*squareSize,squareSize+y,squareSize+j*squareSize,fill="black")
+            can.create_rectangle(y+1,j*squareSize+1,(squareSize-1)+y,(squareSize-1)+j*squareSize,fill="white")
+            #can.create_text(squareSize//2+y,squareSize//2+j*squareSize,text=P[j][i],fill="blue")
+            y=y+squareSize
+    '''
     for j in range(len(Q)) :
         y=0 #affichage
         for i in range(0,len(Q[j])) :
-            can.create_rectangle(y,j*50+500,50+y,50+j*50+500,fill="black")
-            can.create_rectangle(y+1,j*50+1+500,49+y,49+j*50+500,fill="white")
-            can.create_text(25+y,25+j*50+500,text=Q[j][i],fill="blue")
-            y=y+50
+            can.create_rectangle(y,j*squareSize+size//2,squareSize+y,squareSize+j*squareSize+size//2,fill="black")
+            can.create_rectangle(y+1,j*squareSize+1+size//2,squareSize-1+y,squareSize-1+j*squareSize+size//2,fill="white")
+            #can.create_text(squareSize//2+y,squareSize//2+j*squareSize+size//2,text=Q[j][i],fill="blue")
+            y=y+squareSize
+    '''
 
-
-    can.create_text(len(P[0])*50+50,100,font=("Arial",30),text="P",fill="green")
-    can.create_text(len(P[0])*50+50,600,font=("Arial",30),text="Q",fill="green")
+    #can.create_text(len(P[0])*50+50,100,font=("Arial",30),text="P",fill="green")
+    #can.create_text(len(P[0])*50+50,600,font=("Arial",30),text="Q",fill="green")
