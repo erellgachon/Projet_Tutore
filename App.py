@@ -34,6 +34,7 @@ class App :
         self.widgets=[]
 
     def parameters(self, isManual) :
+        self.permut=[]
         self.cleanWindow()
         self.manual=isManual
         self.chooseN()
