@@ -93,12 +93,23 @@ class App :
 
         
     def display(self,displayQ) :
-        self.menu()
+        self.window.destroy()
         result=Tk()
         result.title("Résultat")
         size=800
-        can=Canvas(result,width=800,height=800, bg="white")
+        restartSize=100
+        can=Canvas(result,width=size+restartSize,height=size, bg="white")
         can.pack()
+
+        def restart(event) :
+            if (event.x>=size and event.y<=restartSize//2) :
+                result.destroy()
+                App()
+                
+        can.bind("<Button-1>", restart)
+        can.create_line(size,0,size,restartSize//2,fill="red")
+        can.create_line(size,restartSize//2,size+restartSize,restartSize//2,fill="red")
+        can.create_text(size+restartSize//2,restartSize//4,anchor=CENTER, text="Restart", font=("Arial",15))
             
         [P,Q]=PermutationToYoung(self.permut)
         if (displayQ) :
