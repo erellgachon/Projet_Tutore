@@ -50,14 +50,16 @@ class App :
             self.choosePQ(self.n+2)
 
     def choosePQ(self,row) :
+        chooseP=Button(self.window, text = "Afficher P", command = lambda :self.display(False)) 
+        chooseP.grid(row=row,columnspan=2,pady=8)
+        self.widgets.append(chooseP)
+        
         if (self.manual) :
             choosePQ=Button(self.window, text = "Afficher P et Q", command = lambda : self.display(True))
-            choosePQ.grid(row=row,column=0)
+            choosePQ.grid(row=row+1,columnspan=2)
             self.widgets.append(choosePQ)
 
-        chooseP=Button(self.window, text = "Afficher P", command = lambda :self.display(False)) 
-        chooseP.grid(row=row+1,column=0)
-        self.widgets.append(chooseP)
+
         
     def choosePermutation(self) :
         display=[]
@@ -91,25 +93,20 @@ class App :
 
 
 
-        
+    def restart(self) :
+        self.cleanWindow()
+        self.menu()
+    
     def display(self,displayQ) :
-        self.window.destroy()
-        result=Tk()
-        result.title("Résultat")
+        self.cleanWindow()
         size=800
-        restartSize=100
-        can=Canvas(result,width=size+restartSize,height=size, bg="white")
-        can.pack()
+        can=Canvas(self.window,width=size,height=size, bg="white")
+        can.grid()
+        self.widgets.append(can)
+        restartButton=Button(self.window,text="Restart", command = lambda : self.restart())
+        restartButton.grid(row=1)
+        self.widgets.append(restartButton)
 
-        def restart(event) :
-            if (event.x>=size and event.y<=restartSize//2) :
-                result.destroy()
-                App()
-                
-        can.bind("<Button-1>", restart)
-        can.create_line(size,0,size,restartSize//2,fill="red")
-        can.create_line(size,restartSize//2,size+restartSize,restartSize//2,fill="red")
-        can.create_text(size+restartSize//2,restartSize//4,anchor=CENTER, text="Restart", font=("Arial",15))
             
         [P,Q]=PermutationToYoung(self.permut)
         if (displayQ) :
