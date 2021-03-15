@@ -69,3 +69,21 @@ def permutationAleatoire(n) :
     tabSorted=sorted(tab, key=lambda x : x[1])
     permutation=[element[0] for element in tabSorted]
     return permutation
+
+
+
+def nbPartition(n,tab=[]) :
+    if (n==0) :
+        return 1
+    cpt=0
+    for i in range(1,n+1) :
+        if ( tab==[] or i<=tab[len(tab)-1]):
+            tab2=tab.copy()
+            tab2.append(i)
+            cpt = cpt + nbPartition(n-i,tab2)
+        else :
+            break
+        print("a")
+    return cpt
+        
+            
