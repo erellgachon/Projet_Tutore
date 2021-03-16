@@ -71,19 +71,25 @@ def permutationAleatoire(n) :
     return permutation
 
 
+def partition(n):
+    return partitionAux(n,[],[])
 
-def nbPartition(n,tab=[]) :
+def partitionAux(n,tab,Erell) :
     if (n==0) :
-        return 1
-    cpt=0
+        return Erell.append(tab)
     for i in range(1,n+1) :
         if ( tab==[] or i<=tab[len(tab)-1]):
             tab2=tab.copy()
             tab2.append(i)
-            cpt = cpt + nbPartition(n-i,tab2)
-        else :
-            break
-        print("a")
-    return cpt
-        
+            partitionAux(n-i,tab2,Erell)
+    return Erell
+
+def is_square(apositiveint):
+    x = apositiveint // 2
+    seen = set([x])
+    while x * x != apositiveint:
+        x = (x + (apositiveint // x)) // 2
+        if x in seen: return False
+        seen.add(x)
+    return True        
             

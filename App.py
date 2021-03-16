@@ -1,5 +1,6 @@
 from tkinter import *
 from ProjetTut import *
+from math import *
 
 class App :
     def __init__(self) :
@@ -21,6 +22,9 @@ class App :
         manualEntry.grid(row=0)
         randomEntry=Button(self.window, font = self.font, width=50,  text= "Permutation Aléatoire", command = lambda : self.parameters(False))
         randomEntry.grid(row=1)
+        partitionEntry=Button(self.window, font = self.font, width=50,  text= "Partition", command = lambda : self.displayPartition())
+        partitionEntry.grid(row=2)
+        self.widgets.append(partitionEntry)
         self.widgets.append(manualEntry)
         self.widgets.append(randomEntry)
 
@@ -96,6 +100,53 @@ class App :
     def restart(self) :
         self.cleanWindow()
         self.menu()
+
+    def is_square(self, apositiveint):
+        x = apositiveint // 2
+        seen = set([x])
+        while x * x != apositiveint:
+          x = (x + (apositiveint // x)) // 2
+          if x in seen: return False
+          seen.add(x)
+        return True
+
+
+    def minCarre(self,a):
+        b=a
+        while(not self.is_square(b)):
+            b+=1
+        return b
+
+    def displayPartition(self,n=10):
+        self.cleanWindow()
+        tab=partition(n)
+        size=800
+        can=Canvas(self.window,width=size,height=size, bg="white")
+        can.grid()
+        self.widgets.append(can)
+        tabSize = size//int(sqrt(self.minCarre(len(tab))))
+        squareSize=tabSize//n
+
+        i=0
+        jsp = 0
+        for partitions in tab :
+            if(n>3):
+                if(i>=size-tabSize):
+                    i=0
+                    jsp = jsp + tabSize
+            else :
+                if(i>=size):
+                    i=0
+                    jsp = jsp + tabSize
+            for j in range(len(partitions)) :
+                for y in range(0,partitions[j]*squareSize,squareSize) :
+                    can.create_rectangle(y+i,j*squareSize+jsp,squareSize+y+i,squareSize+j*squareSize+jsp,fill="black")
+                    can.create_rectangle(y+1+i,j*squareSize+1+jsp,(squareSize-1)+y+i,(squareSize-1)+j*squareSize+jsp,fill="white")
+            i=i+tabSize
+
+
+                
+            
     
     def display(self,displayQ) :
         self.cleanWindow()
@@ -132,5 +183,8 @@ class App :
                     if (self.manual) :
                         can.create_text(squareSize//2+y,squareSize//2+j*squareSize+size//2,text=Q[j][i],fill="blue",font=font)
                     y=y+squareSize
+
+
+
             
 App()
