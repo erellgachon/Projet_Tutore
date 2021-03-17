@@ -7,7 +7,7 @@ class App :
         self.window=Tk()
         self.window.title("Mon application")
         self.font=("Arial",20)
-        self.manual=False
+        self.mode="al"
         self.permut=[]
         self.n=0
         self.cpt=0
@@ -18,11 +18,11 @@ class App :
 
     def menu(self) :
         self.cleanWindow()
-        manualEntry=Button(self.window, font=self.font , width = 50, text = "Crérer ma permutation", command=lambda : self.parameters(True))
+        manualEntry=Button(self.window, font=self.font , width = 50, text = "Crérer ma permutation", command=lambda : self.parameters("man"))
         manualEntry.grid(row=0)
-        randomEntry=Button(self.window, font = self.font, width=50,  text= "Permutation Aléatoire", command = lambda : self.parameters(False))
+        randomEntry=Button(self.window, font = self.font, width=50,  text= "Permutation Aléatoire", command = lambda : self.parameters("al"))
         randomEntry.grid(row=1)
-        partitionEntry=Button(self.window, font = self.font, width=50,  text= "Partition", command = lambda : self.displayPartition())
+        partitionEntry=Button(self.window, font = self.font, width=50,  text= "Diagrammes de Young pour un n", command = lambda : self.parameters("par"))
         partitionEntry.grid(row=2)
         self.widgets.append(partitionEntry)
         self.widgets.append(manualEntry)
@@ -37,10 +37,10 @@ class App :
             wid.grid_remove()
         self.widgets=[]
 
-    def parameters(self, isManual) :
+    def parameters(self, mode) :
         self.permut=[]
         self.cleanWindow()
-        self.manual=isManual
+        self.mode=mode
         self.chooseN()
 
     def assign(self,display,i) :
@@ -51,18 +51,17 @@ class App :
         self.cleanWidget(display[i-1])
         self.cpt+=1
         if self.cpt-1==self.n :
-            self.choosePQ(self.n+2)
+            self.displayPQButtons(self.n+2)
 
-    def choosePQ(self,row) :
+    def displayPQButtons(self,row) :
         chooseP=Button(self.window, text = "Afficher P", command = lambda :self.display(False)) 
         chooseP.grid(row=row,columnspan=2,pady=8)
         self.widgets.append(chooseP)
         
-        if (self.manual) :
+        if (self.mode=="man") :
             choosePQ=Button(self.window, text = "Afficher P et Q", command = lambda : self.display(True))
             choosePQ.grid(row=row+1,columnspan=2)
             self.widgets.append(choosePQ)
-
 
         
     def choosePermutation(self) :
@@ -78,11 +77,15 @@ class App :
     def chooseN(self) :
         def getN(event) :
             self.n=int(answer.get())
-            if (self.manual) :
+            if self.mode=="par" :
+                self.displayPartition()
+            elif (self.mode=="man") :
+                self.permut=[]
                 self.choosePermutation()
-            else :
-                self.permut=permutationAleatoire(self.n)
-                self.choosePQ(2)
+            elif (self.mode=="al") :
+                  self.permut=[]
+                  self.permut=permutationAleatoire(self.n)
+                  self.displayPQButtons(2)
             
         choice=Label(self.window, text="Paramètres")
         choice.grid(row=0, columnspan=2, pady=8)
@@ -117,27 +120,29 @@ class App :
             b+=1
         return b
 
-    def displayPartition(self,n=10):
+    def displayPartition(self):
         self.cleanWindow()
-        tab=partition(n)
+        tab=partition(self.n)
         size=800
         can=Canvas(self.window,width=size,height=size, bg="white")
         can.grid()
         self.widgets.append(can)
+        restartButton=Button(self.window,text="Restart", command = lambda : self.restart())
+        restartButton.grid(row=1)
+        self.widgets.append(restartButton)
+        
         tabSize = size//int(sqrt(self.minCarre(len(tab))))
-        squareSize=tabSize//n
+        squareSize=tabSize//self.n
+        print("tabSize : ", tabSize)
+        
 
         i=0
         jsp = 0
         for partitions in tab :
-            if(n>3):
-                if(i>=size-tabSize):
-                    i=0
-                    jsp = jsp + tabSize
-            else :
-                if(i>=size):
-                    i=0
-                    jsp = jsp + tabSize
+            if(i+tabSize>size):
+                i=0
+                jsp = jsp + tabSize + 5
+            print("i :",i)
             for j in range(len(partitions)) :
                 for y in range(0,partitions[j]*squareSize,squareSize) :
                     can.create_rectangle(y+i,j*squareSize+jsp,squareSize+y+i,squareSize+j*squareSize+jsp,fill="black")
@@ -171,7 +176,7 @@ class App :
             for i in range(0,len(P[j])) :
                 can.create_rectangle(y,j*squareSize,squareSize+y,squareSize+j*squareSize,fill="black")
                 can.create_rectangle(y+1,j*squareSize+1,(squareSize-1)+y,(squareSize-1)+j*squareSize,fill="white")
-                if (self.manual) :
+                if (self.mode=="man") :
                     can.create_text(squareSize//2+y,squareSize//2+j*squareSize,text=P[j][i],fill="blue",font=font)
                 y=y+squareSize
         if (displayQ) :
@@ -180,7 +185,7 @@ class App :
                 for i in range(0,len(Q[j])) :
                     can.create_rectangle(y,j*squareSize+size//2,squareSize+y,squareSize+j*squareSize+size//2,fill="black")
                     can.create_rectangle(y+1,j*squareSize+1+size//2,squareSize-1+y,squareSize-1+j*squareSize+size//2,fill="white")
-                    if (self.manual) :
+                    if (self.mode=="man") :
                         can.create_text(squareSize//2+y,squareSize//2+j*squareSize+size//2,text=Q[j][i],fill="blue",font=font)
                     y=y+squareSize
 
