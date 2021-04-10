@@ -165,10 +165,14 @@ class App :
 
             
         [P,Q]=PermutationToYoung(self.permut)
-        if (displayQ) :
-            squareSize= size//(2*max(len(P),len(P[0])))-5
+        if (self.mode=="al") :
+            squareSize=size/(2*sqrt(self.n))
+            print(squareSize)
         else :
-            squareSize=size//max(len(P),len(P[0]))
+            if (displayQ) :
+                squareSize= size//(2*max(len(P),len(P[0])))-5
+            else :
+                squareSize=size//max(len(P),len(P[0]))
         font=("Arial",squareSize//4)
 
         for j in range(len(P)) :
