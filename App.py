@@ -165,9 +165,31 @@ class App :
 
             
         [P,Q]=PermutationToYoung(self.permut)
+        decal=0
         if (self.mode=="al") :
-            squareSize=size/(2*sqrt(self.n))
-            print(squareSize)
+            squareSize=258/sqrt(self.n)
+            
+            can.create_text (8,8, text = "0", fill = "black", font = "arial")
+        
+            can.create_text (8,267, text = "1", fill = "black", font = "arial")
+            can.create_text (8,527, text = "2", fill = "black", font = "arial")
+            can.create_text (8,785, text = "3", fill = "black", font = "arial")
+            
+            can.create_text (272,8, text = "1", fill = "black", font = "arial")
+            can.create_text (531,8, text = "2", fill = "black", font = "arial")
+            can.create_text (789,8, text = "3", fill = "black", font = "arial")
+            
+            can.create_line (20,20,790,20, fill = "black", width = 2)
+            can.create_line (20,20,20,790, fill = "black", width = 2)
+
+            can.create_line (273,15,273,20, fill = "black", width = 2)
+            can.create_line (532,15,532,20, fill = "black", width = 2)
+            can.create_line (790,15,790,20, fill = "black", width = 2)
+
+            can.create_line (15,268,20,268, fill = "black", width = 2)
+            can.create_line (15,527,20,527, fill = "black", width = 2)
+            can.create_line (15,785,20,785, fill = "black", width = 2)
+            decal=25
         else :
             if (displayQ) :
                 squareSize= size//(2*max(len(P),len(P[0])))-5
@@ -178,8 +200,8 @@ class App :
         for j in range(len(P)) :
             y=0
             for i in range(0,len(P[j])) :
-                can.create_rectangle(y,j*squareSize,squareSize+y,squareSize+j*squareSize,fill="black")
-                can.create_rectangle(y+1,j*squareSize+1,(squareSize-1)+y,(squareSize-1)+j*squareSize,fill="white")
+                can.create_rectangle(y+decal,j*squareSize+decal,squareSize+y+decal,squareSize+j*squareSize+decal,fill="black")
+                can.create_rectangle(y+1+decal,j*squareSize+1+decal,(squareSize-1)+y+decal,(squareSize-1)+j*squareSize+decal,fill="white")
                 if (self.mode=="man") :
                     can.create_text(squareSize//2+y,squareSize//2+j*squareSize,text=P[j][i],fill="blue",font=font)
                 y=y+squareSize
