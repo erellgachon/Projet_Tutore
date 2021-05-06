@@ -24,7 +24,7 @@ $ python3 App.py
 
 ### Tableaux de Young standards à partir d'une permutation
 
-Entrez la taille de la permutation n et appuyez sur la touhche "Entrée".
+Entrez la taille n de la permutation et appuyez sur la touhche "Entrée".
 
 Pour entrer une permutation à la main, n cases s'affichent : la première sur laquelle vous cliquez correspond à l'image de 1,
 la i-ième case sur laquelle vous cliquez sera l'image de i, etc...
@@ -33,7 +33,7 @@ Une fois toutes les images sélectionnées, vous pouvez choisir d'afficher P ou 
 
 ### Permutation aléatoire uniforme de taille n
 
-Entrez la taille de la permutation n et appuyez sur la touche "Entrée".
+Entrez la taille n de la permutation et appuyez sur la touche "Entrée".
 
 ### Diagrammes de Young de taille n
 
