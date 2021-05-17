@@ -18,7 +18,7 @@ class App :
 
     def menu(self) :
         self.cleanWindow()
-        manualEntry=Button(self.window, font=self.font , width = 50, text = "Crérer ma permutation", command=lambda : self.parameters("man"))
+        manualEntry=Button(self.window, font=self.font , width = 50, text = "Créer ma permutation", command=lambda : self.parameters("man"))
         manualEntry.grid(row=0)
         randomEntry=Button(self.window, font = self.font, width=50,  text= "Permutation Aléatoire", command = lambda : self.parameters("al"))
         randomEntry.grid(row=1)
